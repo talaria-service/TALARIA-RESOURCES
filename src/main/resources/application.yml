@@ -1,9 +1,9 @@
 server:
-  port: 8888
+  port: 9999
 
 grpc:
   server:
-    port: 50051
+    port: 50052
 
 spring:
   web:
@@ -36,7 +36,6 @@ jwt:
   access-token-TTL: 300
   refresh-token-TTL: 259200
   public-key-location: ${PUBLIC_KEY_PATH}
-  private-key-location: ${PRIVATE_KEY_PATH}
 
 cookie:
   refresh-token:
