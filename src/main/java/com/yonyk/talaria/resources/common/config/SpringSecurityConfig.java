@@ -16,8 +16,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.yonyk.talaria.resources.common.security.filter.AuthorizationFilter;
+import com.yonyk.talaria.resources.common.security.grpc.GrpcClientService;
 import com.yonyk.talaria.resources.common.security.handler.*;
-import com.yonyk.talaria.resources.common.security.util.JwtProvider;
+import com.yonyk.talaria.resources.common.security.util.AuthorizationService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
-  // jwt 관리 클래스
-  private final JwtProvider jwtProvider;
+  // 인가 관련 서비스
+  private final AuthorizationService authorizationService;
+  // gRPC 클라이언트 서비스
+  private final GrpcClientService grpcClientService;
 
   // 예외 처리 핸들러 설정
   private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -54,7 +57,7 @@ public class SpringSecurityConfig {
   // 인가 관련 필터
   @Bean
   public AuthorizationFilter authorizationFilter() throws Exception {
-    return new AuthorizationFilter(jwtProvider);
+    return new AuthorizationFilter(authorizationService, grpcClientService);
   }
 
   // 지정된 출처(주소)에서 오는 요청 관련 설정
@@ -91,8 +94,10 @@ public class SpringSecurityConfig {
             authz ->
                 authz
                     // 회원가입, 로그인, 액세스 토큰 재발급
-                    .requestMatchers("/api/roduct/*")
-                    .permitAll()
+                    .requestMatchers("/api/product/*")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/order/*")
+                    .hasAnyRole("ADMIN", "USER")
                     // 이외 모든 요청 인증 필요
                     .anyRequest()
                     .authenticated())

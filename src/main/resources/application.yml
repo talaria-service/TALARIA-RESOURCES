@@ -34,14 +34,3 @@ spring:
 jwt:
   prefix: 'Bearer '
   access-token-header: Authorization
-  secret: ${SECRET_KEY}
-  access-token-TTL: 300
-  refresh-token-TTL: 259200
-
-cookie:
-  refresh-token:
-    cookie-name: Refresh
-    limit-time: 259200
-    accepted-url: /api/members/refresh_token
-    domain: localhost
-    http-only: true

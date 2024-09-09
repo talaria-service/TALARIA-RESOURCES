@@ -31,6 +31,10 @@ public enum SecurityExceptionType implements ExceptionType {
   REQUIRED_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "로그인 후 다시 요청해주세요."),
   GENERAL_SECURITY_ERROR(HttpStatus.UNAUTHORIZED, "보안 오류가 발생했습니다. 요청을 확인해 주세요."),
 
+  // 인증서버 오류처리
+  // 401 Unautorized
+  AUTHRIZATION_FAILED(HttpStatus.UNAUTHORIZED, "인증에 실패하였습니다."),
+
   // 403 Forbidden
   UNAUTHRIZED_REQUEST(HttpStatus.FORBIDDEN, "요청권한이 없습니다.");
 

@@ -21,7 +21,9 @@ public class AuthenticationClientInterceptor implements ClientInterceptor {
         channel.newCall(methodDescriptor, callOptions)) {
       @Override
       public void start(Listener<RespT> responseListener, Metadata headers) {
+        // 헤더에 accessToken이 들어간 메타데이터 등록
         headers.merge(metadata);
+        // 서비스 클래스로 넘어가기
         super.start(responseListener, headers);
       }
     };

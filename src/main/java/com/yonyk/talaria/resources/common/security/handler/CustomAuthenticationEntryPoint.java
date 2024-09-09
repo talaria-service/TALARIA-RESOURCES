@@ -40,7 +40,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     if (e == null) {
       message = SecurityExceptionType.REQUIRED_AUTHENTICATION.getMessage();
     } else {
-      message = securityExceptionHandler.getExceptionMessage(e);
+      message = e.getMessage();
     }
 
     // 클라이언트에게 응답
