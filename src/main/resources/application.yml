@@ -1,11 +1,8 @@
 server:
   port: 9999
 
-grpc:
-  server:
-    port: 50052
-
 spring:
+
   web:
     resources:
       add-mappings: false
@@ -24,6 +21,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
   excluded:
     path-list:
       /api/members/login,
@@ -32,10 +34,9 @@ spring:
 jwt:
   prefix: 'Bearer '
   access-token-header: Authorization
-  refresh-token-header: AuthorizationRefresh
+  secret: ${SECRET_KEY}
   access-token-TTL: 300
   refresh-token-TTL: 259200
-  public-key-location: ${PUBLIC_KEY_PATH}
 
 cookie:
   refresh-token:
