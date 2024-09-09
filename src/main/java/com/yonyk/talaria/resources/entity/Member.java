@@ -1,7 +1,5 @@
 package com.yonyk.talaria.resources.entity;
 
-import jakarta.persistence.*;
-
 import com.yonyk.talaria.resources.entity.enums.MemberRole;
 
 import lombok.*;
