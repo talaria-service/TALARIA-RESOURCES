@@ -13,7 +13,16 @@ public record OrderDetailDTO(
     long totalPrice,
     String address) {
 
-  public OrderDetailDTO toOrderDetailDTO(Order order) {
-    return null;
+  public static OrderDetailDTO toOrderDetailDTO(Order order) {
+    return new OrderDetailDTO(
+        order.getOrderId(),
+        order.getOrderNumber(),
+        order.getOrderType().getOrderType(),
+        order.getOrderStatusType().getOrderStatusType(),
+        order.getMemberName(),
+        order.getProduct().getProductName().getProductNameType(),
+        order.getQuantity(),
+        order.getTotalPrice(),
+        order.getAddress());
   }
 }

@@ -11,7 +11,6 @@ import com.yonyk.talaria.resources.entity.Product;
 import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
 import com.yonyk.talaria.resources.exception.CustomException;
 import com.yonyk.talaria.resources.exception.enums.ProductExceptionType;
-import com.yonyk.talaria.resources.repository.OrderRepository;
 import com.yonyk.talaria.resources.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OrderRepoService {
 
-  private final OrderRepository orderRepository;
   private final ProductRepository productRepository;
+
+  // 수량 체크
+  public void checkQuantity(OrderDTO orderDTO) {
+    boolean isStockAvailable =
+        productRepository.isStockAvailable(orderDTO.productId(), orderDTO.quantity());
+    if (!isStockAvailable) throw new CustomException(ProductExceptionType.OUT_OF_STOCK);
+  }
 
   // 주문생성
   public Order createOrder(String memberName, OrderDTO orderDTO) {
@@ -62,8 +67,10 @@ public class OrderRepoService {
 
   // 주문번호 생성
   private String createOrderNumber(String orderType) {
+    // 랜덤 6숫자
     Random random = new Random();
     int randomInt = random.nextInt(999999) + 100000;
+    // 현재 시간
     long timestamp = Instant.now().toEpochMilli();
 
     return orderType + "_" + timestamp + "_" + randomInt;

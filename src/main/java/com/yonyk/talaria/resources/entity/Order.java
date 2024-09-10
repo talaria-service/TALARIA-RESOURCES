@@ -7,15 +7,13 @@ import jakarta.persistence.*;
 import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
 import com.yonyk.talaria.resources.entity.enums.OrderType;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity {
@@ -38,7 +36,7 @@ public class Order extends BaseEntity {
   @Column(nullable = false)
   private String memberName;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "productId", nullable = false)
   private Product product;
 

@@ -24,6 +24,8 @@ public class OrderService {
   // 주문 생성
   @Transactional
   public void creatOrder(String memberName, OrderDTO orderDTO) {
+    // 수량 체크
+    orderRepoService.checkQuantity(orderDTO);
     // 주문 생성
     Order order = orderRepoService.createOrder(memberName, orderDTO);
     // 제품의 수량 조절
@@ -38,6 +40,6 @@ public class OrderService {
     if (findOrder == null) {
       throw new CustomException(OrderExceptionType.ORDER_NOT_FOUND);
     }
-    return null;
+    return OrderDetailDTO.toOrderDetailDTO(findOrder);
   }
 }

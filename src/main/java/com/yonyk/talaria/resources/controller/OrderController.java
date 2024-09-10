@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.yonyk.talaria.resources.common.security.details.PrincipalDetails;
 import com.yonyk.talaria.resources.controller.request.OrderDTO;
+import com.yonyk.talaria.resources.controller.response.OrderDetailDTO;
 import com.yonyk.talaria.resources.service.OrderService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,11 @@ public class OrderController {
 
   // 주문 상세 조회
   @GetMapping("/{orderId}")
-  public ResponseEntity<String> orderDetails(
+  public ResponseEntity<OrderDetailDTO> orderDetails(
       @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long orderId) {
-    return null;
+    OrderDetailDTO orderDetailDTO =
+        orderService.getOrderDetail(principalDetails.getUsername(), orderId);
+    return ResponseEntity.ok(orderDetailDTO);
   }
 
   // 주문 목록 조회
