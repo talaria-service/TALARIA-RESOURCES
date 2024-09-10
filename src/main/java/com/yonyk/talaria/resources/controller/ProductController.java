@@ -24,7 +24,7 @@ public class ProductController {
     return ResponseEntity.ok("제품 등록이 성공적으로 완료되었습니다.");
   }
 
-  @GetMapping("{productId}")
+  @GetMapping("/{productId}")
   public ResponseEntity<ProductDTO> getProduct(@PathVariable Long productId) {
     ProductDTO productDTO = productService.getProduct(productId);
     return ResponseEntity.ok(productDTO);
@@ -36,7 +36,9 @@ public class ProductController {
     return ResponseEntity.ok("제품 수정이 성공적으로 완료되었습니다.");
   }
 
+  @DeleteMapping("/{productId}")
   public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
-    return null;
+    productService.DeleteProduct(productId);
+    return ResponseEntity.ok("제품 삭제가 성공적으로 완료되었습니다.");
   }
 }

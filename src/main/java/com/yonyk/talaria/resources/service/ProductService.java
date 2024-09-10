@@ -39,4 +39,11 @@ public class ProductService {
     if (!isExists) throw new CustomException(ProductExceptionType.PRODUCT_NOT_FOUND);
     productRepository.save(productDTO.toProduct());
   }
+
+  // 제품 삭제
+  public void DeleteProduct(long id) {
+    boolean isExists = productRepository.existsById(id);
+    if (!isExists) throw new CustomException(ProductExceptionType.PRODUCT_NOT_FOUND);
+    productRepository.deleteById(id);
+  }
 }
