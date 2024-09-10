@@ -94,9 +94,9 @@ public class SpringSecurityConfig {
             authz ->
                 authz
                     // 회원가입, 로그인, 액세스 토큰 재발급
-                    .requestMatchers("/api/product/*")
+                    .requestMatchers("/api/product", "/api/product/*")
                     .hasRole("ADMIN")
-                    .requestMatchers("/api/order/*")
+                    .requestMatchers("/api/order", "/api/order/*")
                     .hasAnyRole("ADMIN", "USER")
                     // 이외 모든 요청 인증 필요
                     .anyRequest()

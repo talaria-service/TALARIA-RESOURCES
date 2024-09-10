@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.*;
 
+import com.yonyk.talaria.resources.entity.enums.ProductNameType;
 import com.yonyk.talaria.resources.entity.enums.ProductType;
 
 import lombok.AllArgsConstructor;
@@ -20,8 +21,9 @@ public class Product extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long productId;
 
+  @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private String productName;
+  private ProductNameType productName;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)

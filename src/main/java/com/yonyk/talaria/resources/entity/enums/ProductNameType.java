@@ -7,12 +7,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ProductType {
-  @JsonProperty("매입")
-  PURCHASE("PURCHASE"),
+public enum ProductNameType {
+  @JsonProperty("금 99.9%")
+  GOLD_999("금 99.9%"),
 
-  @JsonProperty("매출")
-  SALE("SALE");
+  @JsonProperty("금 99.99%")
+  GOLD_9999("금 99.99%");
 
-  private final String productType;
+  private final String productNameType;
 }

@@ -4,6 +4,7 @@ import static com.yonyk.talaria.resources.exception.enums.CommonExceptionType.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -71,5 +72,10 @@ public class CustomExceptionHandler {
   public ResponseEntity<String> handleHttpMediaTypeNotSupportedException() {
     return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
         .body(INVALID_JSON_TYPE.getMessage());
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<String> handleHttpMessageNotReadableException() {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(INVALID_INPUT_VALUE.getMessage());
   }
 }
