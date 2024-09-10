@@ -1,13 +1,10 @@
 package com.yonyk.talaria.resources.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.yonyk.talaria.resources.common.security.details.PrincipalDetails;
-import com.yonyk.talaria.resources.entity.Member;
+import com.yonyk.talaria.resources.controller.request.ProductDTO;
+import com.yonyk.talaria.resources.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +15,30 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/product")
 public class ProductController {
 
-  @GetMapping("/test")
-  public ResponseEntity<Member> test(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-    Member member = principalDetails.getMember();
-    return ResponseEntity.ok(member);
+  private final ProductService productService;
+
+  // 제품 등록
+  @PostMapping
+  public ResponseEntity<String> registration(@RequestBody ProductDTO productDTO) {
+    productService.registration(productDTO);
+    return ResponseEntity.ok("제품 등록이 성공적으로 완료되었습니다.");
+  }
+
+  @GetMapping("/{productId}")
+  public ResponseEntity<ProductDTO> getProduct(@PathVariable Long productId) {
+    ProductDTO productDTO = productService.getProduct(productId);
+    return ResponseEntity.ok(productDTO);
+  }
+
+  @PutMapping
+  public ResponseEntity<String> updateProduct(@RequestBody ProductDTO productDTO) {
+    productService.UpdateProduct(productDTO);
+    return ResponseEntity.ok("제품 수정이 성공적으로 완료되었습니다.");
+  }
+
+  @DeleteMapping("/{productId}")
+  public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+    productService.DeleteProduct(productId);
+    return ResponseEntity.ok("제품 삭제가 성공적으로 완료되었습니다.");
   }
 }

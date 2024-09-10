@@ -5,6 +5,7 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -93,10 +94,18 @@ public class SpringSecurityConfig {
         .authorizeHttpRequests(
             authz ->
                 authz
-                    // 회원가입, 로그인, 액세스 토큰 재발급
-                    .requestMatchers("/api/product/*")
+                    // 제품 등록, 수정, 삭제는 ADMIN 만 가능
+                    .requestMatchers(HttpMethod.POST, "/api/product")
                     .hasRole("ADMIN")
-                    .requestMatchers("/api/order/*")
+                    .requestMatchers(HttpMethod.PUT, "/api/product")
+                    .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/product/*")
+                    .hasRole("ADMIN")
+                    // 제품 조회는 ADMIN 및 USER 가능
+                    .requestMatchers(HttpMethod.GET, "/api/product/*")
+                    .hasAnyRole("ADMIN", "USER")
+                    // 주문 생성, 조회, 수정, 삭제는 ADMIN 및 USER 가능
+                    .requestMatchers("/api/order", "/api/order/*")
                     .hasAnyRole("ADMIN", "USER")
                     // 이외 모든 요청 인증 필요
                     .anyRequest()
