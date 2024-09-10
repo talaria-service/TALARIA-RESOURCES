@@ -2,6 +2,7 @@ package com.yonyk.talaria.resources.entity;
 
 import jakarta.persistence.*;
 
+import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
 import com.yonyk.talaria.resources.entity.enums.OrderType;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +26,10 @@ public class Order extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private OrderType orderType;
+
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private OrderStatusType orderStatusType;
 
   @Column(nullable = false)
   private String memberName;
