@@ -1,5 +1,7 @@
 package com.yonyk.talaria.resources.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
@@ -7,9 +9,11 @@ import com.yonyk.talaria.resources.entity.enums.OrderType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -46,4 +50,6 @@ public class Order extends BaseEntity {
 
   @Column(nullable = false)
   private String address;
+
+  @Column private LocalDateTime deletedAt;
 }
