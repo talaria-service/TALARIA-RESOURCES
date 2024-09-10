@@ -32,8 +32,8 @@ public class ProductController {
 
   @PutMapping
   public ResponseEntity<String> updateProduct(@RequestBody ProductDTO productDTO) {
-
-    return null;
+    productService.UpdateProduct(productDTO);
+    return ResponseEntity.ok("제품 수정이 성공적으로 완료되었습니다.");
   }
 
   public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {

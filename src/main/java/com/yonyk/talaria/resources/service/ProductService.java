@@ -35,9 +35,8 @@ public class ProductService {
 
   // 제품 수정
   public void UpdateProduct(ProductDTO productDTO) {
-    Product findProduct =
-        productRepository
-            .findById(productDTO.productId())
-            .orElseThrow(() -> new CustomException(ProductExceptionType.PRODUCT_NOT_FOUND));
+    boolean isExists = productRepository.existsById(productDTO.productId());
+    if (!isExists) throw new CustomException(ProductExceptionType.PRODUCT_NOT_FOUND);
+    productRepository.save(productDTO.toProduct());
   }
 }

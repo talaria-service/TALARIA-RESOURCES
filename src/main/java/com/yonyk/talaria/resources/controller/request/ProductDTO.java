@@ -17,6 +17,7 @@ public record ProductDTO(
 
   public Product toProduct() {
     return Product.builder()
+        .productId(productId != 0 ? productId : null)
         .productName(productName)
         .productType(productType)
         .gram(gram.setScale(2, RoundingMode.HALF_UP))
