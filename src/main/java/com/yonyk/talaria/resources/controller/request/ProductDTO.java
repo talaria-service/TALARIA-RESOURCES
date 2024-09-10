@@ -8,6 +8,7 @@ import com.yonyk.talaria.resources.entity.enums.ProductNameType;
 import com.yonyk.talaria.resources.entity.enums.ProductType;
 
 public record ProductDTO(
+    long productId,
     ProductNameType productName,
     ProductType productType,
     BigDecimal gram,
@@ -22,5 +23,15 @@ public record ProductDTO(
         .quantity(quantity)
         .price(price)
         .build();
+  }
+
+  public static ProductDTO toProductDTO(Product product) {
+    return new ProductDTO(
+        product.getProductId(),
+        product.getProductName(),
+        product.getProductType(),
+        product.getGram(),
+        product.getQuantity(),
+        product.getPrice());
   }
 }

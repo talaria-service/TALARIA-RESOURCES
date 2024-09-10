@@ -5,6 +5,7 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -93,9 +94,10 @@ public class SpringSecurityConfig {
         .authorizeHttpRequests(
             authz ->
                 authz
-                    // 회원가입, 로그인, 액세스 토큰 재발급
-                    .requestMatchers("/api/product", "/api/product/*")
+                    .requestMatchers(HttpMethod.POST, "/api/product", "/api/product/*")
                     .hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET, "/api/product/*")
+                    .hasAnyRole("ADMIN", "USER")
                     .requestMatchers("/api/order", "/api/order/*")
                     .hasAnyRole("ADMIN", "USER")
                     // 이외 모든 요청 인증 필요
