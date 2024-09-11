@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.yonyk.talaria.resources.common.swagger.ProductControllerSwagger;
 import com.yonyk.talaria.resources.controller.request.ProductDTO;
 import com.yonyk.talaria.resources.controller.request.ProductPageDTO;
 import com.yonyk.talaria.resources.service.ProductService;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/product")
-public class ProductController {
+public class ProductController implements ProductControllerSwagger {
 
   private final ProductService productService;
 

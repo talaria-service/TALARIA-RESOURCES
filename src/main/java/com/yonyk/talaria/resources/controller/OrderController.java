@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.yonyk.talaria.resources.common.security.details.PrincipalDetails;
+import com.yonyk.talaria.resources.common.swagger.OrderControllerSwagger;
 import com.yonyk.talaria.resources.controller.request.OrderDTO;
 import com.yonyk.talaria.resources.controller.request.OrderListRequestDTO;
 import com.yonyk.talaria.resources.controller.request.OrderStatusDTO;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/order")
-public class OrderController {
+public class OrderController implements OrderControllerSwagger {
 
   private final OrderService orderService;
 
@@ -57,7 +58,7 @@ public class OrderController {
     return ResponseEntity.ok(orderListResponseDTO);
   }
 
-  // 주문상태 수정
+  // 주문 상태 변경
   @PatchMapping
   public ResponseEntity<String> updateOrderStatus(
       @AuthenticationPrincipal PrincipalDetails principalDetails,
