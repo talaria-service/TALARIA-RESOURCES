@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.SQLDelete;
+
 import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
 import com.yonyk.talaria.resources.entity.enums.OrderType;
 
@@ -14,6 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@SQLDelete(sql = "UPDATE orders SET deleted_at = CURRENT_TIMESTAMP WHERE order_id = ?")
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity {
@@ -50,4 +53,8 @@ public class Order extends BaseEntity {
   private String address;
 
   @Column private LocalDateTime deletedAt;
+
+  public void setOrderStatusType(OrderStatusType orderStatusType) {
+    this.orderStatusType = orderStatusType;
+  }
 }
