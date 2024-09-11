@@ -94,6 +94,9 @@ public class SpringSecurityConfig {
         .authorizeHttpRequests(
             authz ->
                 authz
+                    // Swagger 설정
+                    .requestMatchers("/v3/**", "/swagger-ui/**")
+                    .permitAll()
                     // 제품 등록, 수정, 삭제는 ADMIN 만 가능
                     .requestMatchers(HttpMethod.POST, "/api/product")
                     .hasRole("ADMIN")

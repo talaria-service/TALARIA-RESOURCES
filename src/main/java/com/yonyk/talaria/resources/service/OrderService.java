@@ -60,7 +60,6 @@ public class OrderService {
     String message = orderRepoService.getMessage(orderList.getTotalElements());
     // success에 넣을 값 생성
     boolean success = orderRepoService.getSuccess(orderList.getTotalElements());
-
     // 링크 가져오기
     Map<String, String> links =
         orderRepoService.getLinks(orderList.getTotalPages(), orderListRequestDTO);
