@@ -9,10 +9,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ProductType {
   @JsonProperty("매입")
-  PURCHASE("PURCHASE"),
+  PURCHASE("매입"),
 
   @JsonProperty("매출")
-  SALE("SALE");
+  SALE("매출");
 
   private final String productType;
 }

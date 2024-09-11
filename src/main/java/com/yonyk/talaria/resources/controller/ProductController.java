@@ -52,7 +52,7 @@ public class ProductController {
   // 제품 삭제
   @DeleteMapping("/{productId}")
   public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
-    productService.DeleteProduct(productId);
+    productService.softDelete(productId);
     return ResponseEntity.ok("제품 삭제가 성공적으로 완료되었습니다.");
   }
 }

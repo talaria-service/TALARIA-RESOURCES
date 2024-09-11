@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.SQLDelete;
+
 import com.yonyk.talaria.resources.entity.enums.ProductNameType;
 import com.yonyk.talaria.resources.entity.enums.ProductType;
 
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE product SET deleted_at = CURRENT_TIMESTAMP WHERE product_id = ?")
 @Entity
 @Table(name = "product")
 public class Product extends BaseEntity {
@@ -39,4 +42,8 @@ public class Product extends BaseEntity {
 
   @Column(nullable = false)
   private long price;
+
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
 }

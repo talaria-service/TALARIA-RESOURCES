@@ -2,16 +2,19 @@ package com.yonyk.talaria.resources.entity;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.SQLDelete;
+
 import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
 import com.yonyk.talaria.resources.entity.enums.OrderType;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@SQLDelete(sql = "UPDATE orders SET deleted_at = CURRENT_TIMESTAMP WHERE order_id = ?")
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity {
@@ -34,7 +37,7 @@ public class Order extends BaseEntity {
   @Column(nullable = false)
   private String memberName;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "productId", nullable = false)
   private Product product;
 
@@ -46,4 +49,8 @@ public class Order extends BaseEntity {
 
   @Column(nullable = false)
   private String address;
+
+  public void setOrderStatusType(OrderStatusType orderStatusType) {
+    this.orderStatusType = orderStatusType;
+  }
 }
