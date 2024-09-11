@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yonyk.talaria.resources.entity.Product;
 import com.yonyk.talaria.resources.entity.enums.ProductType;
@@ -22,12 +23,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   boolean isStockAvailable(@Param("productId") long productId, @Param("quantity") int quantity);
 
   // 수량 추가
+  @Transactional
   @Modifying
   @Query("UPDATE Product p SET p.quantity = p.quantity + :quantity WHERE p.productId = :productId")
-  void increaseQunatity(@Param("productId") long productId, @Param("quantity") int quantity);
+  int increaseQunatity(@Param("productId") long productId, @Param("quantity") int quantity);
 
   // 수량 감소
+  @Transactional
   @Modifying
   @Query("UPDATE Product p SET p.quantity = p.quantity - :quantity WHERE p.productId = :productId")
-  void decreaseQunatity(@Param("productId") long productId, @Param("quantity") int quantity);
+  int decreaseQunatity(@Param("productId") long productId, @Param("quantity") int quantity);
 }

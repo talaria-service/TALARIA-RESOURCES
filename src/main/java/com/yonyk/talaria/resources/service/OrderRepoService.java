@@ -6,12 +6,13 @@ import java.util.Random;
 import org.springframework.stereotype.Service;
 
 import com.yonyk.talaria.resources.controller.request.OrderDTO;
+import com.yonyk.talaria.resources.controller.request.OrderStatusDTO;
 import com.yonyk.talaria.resources.entity.Order;
 import com.yonyk.talaria.resources.entity.Product;
 import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
 import com.yonyk.talaria.resources.exception.CustomException;
-import com.yonyk.talaria.resources.exception.enums.ProductExceptionType;
-import com.yonyk.talaria.resources.repository.ProductRepository;
+import com.yonyk.talaria.resources.exception.enums.OrderExceptionType;
+import com.yonyk.talaria.resources.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,48 +22,30 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OrderRepoService {
 
-  private final ProductRepository productRepository;
+  private final OrderRepository orderRepository;
 
-  // 수량 체크
-  public void checkQuantity(OrderDTO orderDTO) {
-    boolean isStockAvailable =
-        productRepository.isStockAvailable(orderDTO.productId(), orderDTO.quantity());
-    if (!isStockAvailable) throw new CustomException(ProductExceptionType.OUT_OF_STOCK);
+  // 주문 저장
+  public void saveOrder(Order order) {
+    orderRepository.save(order);
   }
 
   // 주문생성
-  public Order createOrder(String memberName, OrderDTO orderDTO) {
+  public Order createOrder(String memberName, OrderDTO orderDTO, Product product) {
     // 주문 타입(구매, 판매)
     String orderType = orderDTO.orderType().toString();
-    // 주문할 제품
-    Product findProduct = findProductById(orderDTO.productId());
     // 수량 * 제품 가격인 총 가격
-    long totalPrice = orderDTO.quantity() * findProduct.getPrice();
+    long totalPrice = orderDTO.quantity() * product.getPrice();
 
     return Order.builder()
         .orderNumber(createOrderNumber(orderType))
         .orderType(orderDTO.orderType())
         .orderStatusType(OrderStatusType.ORDER_COMPLETED)
         .memberName(memberName)
-        .product(findProduct)
+        .product(product)
         .quantity(orderDTO.quantity())
         .totalPrice(totalPrice)
         .address(orderDTO.address())
         .build();
-  }
-
-  // 주문 제품 수량
-  public void manageQunatity(long productId, int quantity, boolean plus) {
-    // 주문할 제품의 수량 조절
-    if (plus) productRepository.increaseQunatity(productId, quantity);
-    else productRepository.decreaseQunatity(productId, quantity);
-  }
-
-  // 주문할 제품 가져오기
-  private Product findProductById(Long id) {
-    return productRepository
-        .findById(id)
-        .orElseThrow(() -> new CustomException(ProductExceptionType.PRODUCT_NOT_FOUND));
   }
 
   // 주문번호 생성
@@ -74,5 +57,35 @@ public class OrderRepoService {
     long timestamp = Instant.now().toEpochMilli();
 
     return orderType + "_" + timestamp + "_" + randomInt;
+  }
+
+  // 주문 id로 Order 가져오기
+  public Order getOrder(String memberName, long orderId) {
+    Order findOrder = orderRepository.findByOrderIdAndMemberName(orderId, memberName);
+    if (findOrder == null) {
+      throw new CustomException(OrderExceptionType.ORDER_NOT_FOUND);
+    }
+    return findOrder;
+  }
+
+  // 사용자가 작성한 주문이 존재하는지 확인
+  public void isExist(String memberName, long orderId) {
+    boolean isExist = orderRepository.existsByMemberNameAndOrderId(orderId, memberName);
+    if (!isExist) throw new CustomException(OrderExceptionType.ORDER_NOT_FOUND);
+  }
+
+  // 주문 상태 변경이 가능한 상태인지 확인
+  public void canChangeStatus(Order order) {
+    // 주문 상태가 주문취소, 수령완료, 발송완료일 경우 예외 발생
+    if (order.getOrderStatusType().equals(OrderStatusType.CANCLE_ORDER)
+        || order.getOrderStatusType().equals(OrderStatusType.REEIVED)
+        || order.getOrderStatusType().equals(OrderStatusType.SHIPPED)) {
+      throw new CustomException(OrderExceptionType.STATUS_CHANGE_NOT_ALLOWED);
+    }
+  }
+
+  // 주문 상태 수정
+  public void updateOrderStatus(OrderStatusDTO orderStatusDTO) {
+    orderRepository.updateOrderStatus(orderStatusDTO.orderId(), orderStatusDTO.orderStatusType());
   }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.yonyk.talaria.resources.common.security.details.PrincipalDetails;
 import com.yonyk.talaria.resources.controller.request.OrderDTO;
+import com.yonyk.talaria.resources.controller.request.OrderStatusDTO;
 import com.yonyk.talaria.resources.controller.response.OrderDetailDTO;
 import com.yonyk.talaria.resources.service.OrderService;
 
@@ -45,20 +46,19 @@ public class OrderController {
   }
 
   // 주문상태 수정
-
-  public ResponseEntity<String> updateOrderStatus() {
-    return null;
-  }
-
-  // 주문 배송지 수정
-
-  public ResponseEntity<String> updateAddress() {
-    return null;
+  @PatchMapping
+  public ResponseEntity<String> updateOrderStatus(
+      @AuthenticationPrincipal PrincipalDetails principalDetails,
+      @RequestBody OrderStatusDTO orderStatusDTO) {
+    orderService.updateOrderStatus(principalDetails.getUsername(), orderStatusDTO);
+    return ResponseEntity.ok("주문상태 수정이 성공적으로 완료되었습니다.");
   }
 
   // 주문 삭제
+  @DeleteMapping("/{orderId}")
+  public ResponseEntity<String> deleteOrder(
+      @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long orderId) {
 
-  public ResponseEntity<String> deleteOrder() {
     return null;
   }
 }
