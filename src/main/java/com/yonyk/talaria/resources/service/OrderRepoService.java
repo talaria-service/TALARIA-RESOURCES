@@ -70,7 +70,7 @@ public class OrderRepoService {
 
   // 사용자가 작성한 주문이 존재하는지 확인
   public void isExist(String memberName, long orderId) {
-    boolean isExist = orderRepository.existsByMemberNameAndOrderId(orderId, memberName);
+    boolean isExist = orderRepository.existsByOrderIdAndMemberName(orderId, memberName);
     if (!isExist) throw new CustomException(OrderExceptionType.ORDER_NOT_FOUND);
   }
 

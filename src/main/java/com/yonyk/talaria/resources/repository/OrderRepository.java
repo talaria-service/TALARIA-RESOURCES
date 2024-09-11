@@ -16,10 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
   Order findByOrderIdAndMemberName(Long orderId, String memberName);
 
   // 사용자가 작성한 order가 있는지 확인
-  boolean existsByMemberNameAndOrderId(long orderId, String memberName);
-
-  // 주문 변경이 가능한 상태인지 확인
-  boolean canChangeStatus(long orderId);
+  boolean existsByOrderIdAndMemberName(long orderId, String memberName);
 
   // 주문 상태 변경
   @Transactional
