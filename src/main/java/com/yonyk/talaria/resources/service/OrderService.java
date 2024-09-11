@@ -1,6 +1,5 @@
 package com.yonyk.talaria.resources.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -88,9 +87,7 @@ public class OrderService {
     Order findOrder = orderRepoService.getOrder(memberName, orderId);
     // 주문 상태 변경이 가능한 상태인지 확인
     orderRepoService.canChangeStatus(findOrder);
-    // 주문 취소 시간 생성
-    LocalDateTime deletedAt = LocalDateTime.now();
     // 주문 삭제
-    orderRepoService.softDelete(findOrder, deletedAt);
+    orderRepoService.softDelete(findOrder);
   }
 }

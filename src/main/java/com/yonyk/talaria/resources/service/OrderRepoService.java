@@ -2,7 +2,6 @@ package com.yonyk.talaria.resources.service;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.data.domain.Page;
@@ -144,7 +143,7 @@ public class OrderRepoService {
 
   // deletedAt에 날짜를 추가하여 소프트 딜맅트
   @Transactional
-  public void softDelete(Order order, LocalDateTime deletedAt) {
+  public void softDelete(Order order) {
     // 주문 상태 변경
     updateOrderStatus(order, OrderStatusType.CANCLE_ORDER);
     // 소프트 딜리트
