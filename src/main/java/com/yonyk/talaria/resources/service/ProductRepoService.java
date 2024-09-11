@@ -29,7 +29,7 @@ public class ProductRepoService {
   }
 
   // 제품 삭제
-  public void deleteProduct(long productId) {
+  public void softDeleteProduct(long productId) {
     productRepository.deleteById(productId);
   }
 
@@ -62,9 +62,12 @@ public class ProductRepoService {
 
   // 주문 제품 수량 수량 조절
   public void manageQunatity(long productId, int quantity, boolean calculate) {
+    Product findProduct = getProduct(productId);
     // 주문할 제품의 수량 조절
     // true 면 수량 추가, flase 면 수량 감소
-    if (calculate) productRepository.increaseQunatity(productId, quantity);
-    else productRepository.decreaseQunatity(productId, quantity);
+    if (calculate) findProduct.setQuantity(findProduct.getQuantity() + quantity);
+    else findProduct.setQuantity(findProduct.getQuantity() - quantity);
+    // 수량 업데이트
+    productRepository.save(findProduct);
   }
 }

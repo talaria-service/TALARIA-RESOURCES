@@ -1,7 +1,5 @@
 package com.yonyk.talaria.resources.entity;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.SQLDelete;
@@ -51,8 +49,6 @@ public class Order extends BaseEntity {
 
   @Column(nullable = false)
   private String address;
-
-  @Column private LocalDateTime deletedAt;
 
   public void setOrderStatusType(OrderStatusType orderStatusType) {
     this.orderStatusType = orderStatusType;

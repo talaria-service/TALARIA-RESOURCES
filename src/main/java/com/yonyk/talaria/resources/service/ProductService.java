@@ -52,10 +52,10 @@ public class ProductService {
   }
 
   // 제품 삭제
-  public void DeleteProduct(long id) {
+  public void softDelete(long id) {
     // id에 해당하는 제품 존재하는지 확인
     productRepoService.isExists(id);
     // 확인 후 삭제
-    productRepoService.deleteProduct(id);
+    productRepoService.softDeleteProduct(id);
   }
 }

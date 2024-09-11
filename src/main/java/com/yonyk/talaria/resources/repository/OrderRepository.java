@@ -16,9 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
   // 사용자가 작성한 order 엔티티를 리턴
   Order findByOrderIdAndMemberName(Long orderId, String memberName);
 
-  // 사용자가 작성한 order가 있는지 확인
-  boolean existsByOrderIdAndMemberName(long orderId, String memberName);
-
   // 페이지네이션을 이용해 특정 OrderStatusType 의 order List 가져오기
   @Query(
       "SELECT o FROM Order o WHERE o.memberName = :memberName "

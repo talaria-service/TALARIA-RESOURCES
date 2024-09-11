@@ -57,13 +57,10 @@ public class OrderService {
     Page<Order> orderList = orderRepoService.getProductList(memberName, orderListRequestDTO);
     List<OrderDetailDTO> orderDetailDTOList =
         orderList.stream().map(OrderDetailDTO::toOrderDetailDTO).toList();
-
     // message에 넣을 메세지 생성
     String message = orderRepoService.getMessage(orderList.getTotalElements());
     // success에 넣을 값 생성
     boolean success = orderRepoService.getSuccess(orderList.getTotalElements());
-
-    System.out.println("총 페이지: " + orderList.getTotalPages());
 
     // 링크 가져오기
     Map<String, String> links =
