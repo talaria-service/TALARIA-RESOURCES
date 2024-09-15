@@ -63,7 +63,7 @@ jobs:
         # 도커 작업
         script: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/talaria-res:latest
-          docker stop $(docker ps -q --filter 'name=talaria-res')
-          docker rm $(docker ps -a -q --filter 'name=talaria-res' )
+          docker stop $(docker ps -q --filter 'name=^talaria-res$')
+          docker rm $(docker ps -a -q --filter 'name=^talaria-res$' )
           docker run -d --log-driver=syslog -p 9999:9999 --name talaria-res --network yonyk-network ${{ secrets.DOCKER_USERNAME }}/talaria-res:latest 
           docker image prune -a -f
