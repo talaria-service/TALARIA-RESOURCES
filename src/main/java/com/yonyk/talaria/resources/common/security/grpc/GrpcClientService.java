@@ -26,6 +26,9 @@ public class GrpcClientService {
   @Value("${jwt.access-token-header}")
   String accessTokenHeader;
 
+  @Value("${grpcHost}")
+  String grpcHost;
+
   private final AuthorizationService authorizationService;
 
   public Authentication getAuthorization(String accessToken) {
@@ -35,7 +38,7 @@ public class GrpcClientService {
 
     // GRPC 서버와의 채널 생성
     ManagedChannel channel =
-        ManagedChannelBuilder.forAddress("localhost", 50051)
+        ManagedChannelBuilder.forAddress(grpcHost, 50051)
             .usePlaintext()
             .intercept(interceptor)
             .build();
