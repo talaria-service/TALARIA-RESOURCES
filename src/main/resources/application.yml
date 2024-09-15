@@ -21,11 +21,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
 
-  data:
-    redis:
-      host: localhost
-      port: 6379
-
   excluded:
     path-list:
       /api/members/login,
@@ -34,3 +29,5 @@ spring:
 jwt:
   prefix: 'Bearer '
   access-token-header: Authorization
+
+grpcHost: ${GRPC_HOST}
