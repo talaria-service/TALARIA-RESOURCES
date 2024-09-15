@@ -14,6 +14,7 @@ import com.yonyk.talaria.resources.controller.response.OrderDetailDTO;
 import com.yonyk.talaria.resources.controller.response.OrderListResponseDTO;
 import com.yonyk.talaria.resources.entity.Order;
 import com.yonyk.talaria.resources.entity.Product;
+import com.yonyk.talaria.resources.entity.enums.OrderStatusType;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -86,6 +87,8 @@ public class OrderService {
     Order findOrder = orderRepoService.getOrder(memberName, orderId);
     // 주문 상태 변경이 가능한 상태인지 확인
     orderRepoService.canChangeStatus(findOrder);
+    // 주문 상태 수정
+    orderRepoService.updateOrderStatus(findOrder, OrderStatusType.CANCLE_ORDER);
     // 주문 삭제
     orderRepoService.softDelete(findOrder);
   }
