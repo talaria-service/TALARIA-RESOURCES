@@ -146,7 +146,9 @@ public class OrderRepoService {
   public void softDelete(Order order) {
     // 주문 상태 변경
     updateOrderStatus(order, OrderStatusType.CANCLE_ORDER);
+    // 주문 상태 변경한 Order 객체 다시 가져오기
+    Order updatedOrder = getOrder(order.getMemberName(), order.getOrderId());
     // 소프트 딜리트
-    orderRepository.deleteById(order.getOrderId());
+    orderRepository.deleteById(updatedOrder.getOrderId());
   }
 }
