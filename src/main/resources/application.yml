@@ -20,6 +20,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
+        default_batch_fetch_size: 10
 
   excluded:
     path-list:
